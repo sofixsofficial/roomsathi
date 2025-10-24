@@ -15,12 +15,12 @@ const getBaseUrl = () => {
   if (process.env.NODE_ENV !== "production") {
     // eslint-disable-next-line no-console
     console.warn(
-      "EXPO_PUBLIC_RORK_API_BASE_URL is not set — defaulting to http://localhost:3000 for development"
+      "EXPO_PUBLIC_API_BASE_URL is not set — defaulting to http://localhost:3000 for development"
     );
     return "http://localhost:3000";
   }
 
-  throw new Error("No base url found, please set EXPO_PUBLIC_RORK_API_BASE_URL");
+  throw new Error("No base url found, please set EXPO_PUBLIC_API_BASE_URL");
 };
 
 export const trpcClient = trpc.createClient({
