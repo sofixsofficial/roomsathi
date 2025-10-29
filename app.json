@@ -58,6 +58,9 @@
         "expo-router"
       ],
       [
+        "expo-dev-client"
+      ],
+      [
         "expo-location",
         {
           "isAndroidForegroundServiceEnabled": true,
@@ -77,11 +80,11 @@
       "typedRoutes": true
     },
     "extra": {
+      "router": {},
       "eas": {
-        "projectId": "d91a009d-403b-4925-96aa-270544de31d1"
-      },
-      "router": {}
+        "projectId": "0cade55e-a970-473b-92c2-826bc8e84c50"
+      }
     },
-    "owner": "sumit52"
+    "owner": "sumi_018"
   }
 }

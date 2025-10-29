@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -8,14 +8,14 @@ import {
   FlatList,
   ViewToken,
   Image,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import { ChevronRight } from 'lucide-react-native';
-import Colors from '@/constants/colors';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react-native";
+import { useRouter } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import { ChevronRight } from "lucide-react-native";
+import Colors from "@/constants/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 interface OnboardingSlide {
   id: string;
@@ -27,32 +27,40 @@ interface OnboardingSlide {
 
 const slides: OnboardingSlide[] = [
   {
-    id: '1',
-    title: 'Find Your Perfect Property',
-    description: 'Browse through thousands of verified properties tailored to your needs',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
-    gradient: ['#667eea', '#764ba2'],
+    id: "1",
+    title: "Find Your Perfect Property",
+    description:
+      "Browse through thousands of verified properties tailored to your needs",
+    image:
+      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
+    gradient: ["#667eea", "#764ba2"],
   },
   {
-    id: '2',
-    title: 'Easy Search & Filters',
-    description: 'Advanced filters to find exactly what you are looking for quickly',
-    image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
-    gradient: ['#f093fb', '#f5576c'],
+    id: "2",
+    title: "Easy Search & Filters",
+    description:
+      "Advanced filters to find exactly what you are looking for quickly",
+    image:
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
+    gradient: ["#f093fb", "#f5576c"],
   },
   {
-    id: '3',
-    title: 'Direct Communication',
-    description: 'Chat directly with property owners and schedule visits instantly',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
-    gradient: ['#4facfe', '#00f2fe'],
+    id: "3",
+    title: "Direct Communication",
+    description:
+      "Chat directly with property owners and schedule visits instantly",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    gradient: ["#4facfe", "#00f2fe"],
   },
   {
-    id: '4',
-    title: 'Trusted & Secure',
-    description: 'All properties are verified and secure for your peace of mind',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80',
-    gradient: ['#43e97b', '#38f9d7'],
+    id: "4",
+    title: "Trusted & Secure",
+    description:
+      "All properties are verified and secure for your peace of mind",
+    image:
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+    gradient: ["#43e97b", "#38f9d7"],
   },
 ];
 
@@ -62,8 +70,14 @@ export default function OnboardingScreen() {
   const flatListRef = useRef<FlatList>(null);
 
   const handleSkip = async () => {
-    await AsyncStorage.setItem('hasSeenOnboarding', 'true');
-    router.replace('/auth/login');
+    try {
+      await AsyncStorage.setItem("hasSeenOnboarding", "true");
+      router.replace("/auth/login");
+    } catch (error) {
+      console.error("Failed to save onboarding status:", error);
+      // Still navigate even if storage fails
+      router.replace("/auth/login");
+    }
   };
 
   const handleNext = () => {
@@ -88,13 +102,13 @@ export default function OnboardingScreen() {
 
   const renderSlide = ({ item }: { item: OnboardingSlide }) => (
     <View style={styles.slide}>
-      <Image 
-        source={{ uri: item.image }} 
+      <Image
+        source={{ uri: item.image }}
         style={styles.slideImage}
         resizeMode="cover"
       />
       <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.7)', 'rgba(0,0,0,0.95)'] as any}
+        colors={["transparent", "rgba(0,0,0,0.7)", "rgba(0,0,0,0.95)"] as any}
         style={styles.slideOverlay}
       >
         <View style={styles.textContainer}>
@@ -145,7 +159,7 @@ export default function OnboardingScreen() {
               style={styles.nextButtonGradient}
             >
               <Text style={styles.nextButtonText}>
-                {currentIndex === slides.length - 1 ? 'Get Started' : 'Next'}
+                {currentIndex === slides.length - 1 ? "Get Started" : "Next"}
               </Text>
               <ChevronRight size={20} color={Colors.white} />
             </LinearGradient>
@@ -168,37 +182,37 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   slideImage: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+    position: "absolute",
+    width: "100%",
+    height: "100%",
   },
   slideOverlay: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
     paddingBottom: 120,
   },
   textContainer: {
     paddingHorizontal: 32,
-    alignItems: 'center',
+    alignItems: "center",
   },
   title: {
     fontSize: 36,
-    fontWeight: '900',
+    fontWeight: "900",
     color: Colors.white,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 16,
     letterSpacing: 0.8,
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 8,
   },
   description: {
     fontSize: 17,
-    color: 'rgba(255, 255, 255, 0.95)',
-    textAlign: 'center',
+    color: "rgba(255, 255, 255, 0.95)",
+    textAlign: "center",
     lineHeight: 26,
-    fontWeight: '500',
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
+    fontWeight: "500",
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 4,
   },
@@ -208,9 +222,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 32,
   },
   paginationDot: {
@@ -225,9 +239,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 16,
   },
   skipButton: {
@@ -236,35 +250,35 @@ const styles = StyleSheet.create({
   },
   skipButtonText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.textLight,
   },
   nextButton: {
     borderRadius: 30,
-    overflow: 'hidden',
+    overflow: "hidden",
     elevation: 4,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
   },
   nextButtonGradient: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 14,
     paddingHorizontal: 28,
     gap: 8,
   },
   nextButtonText: {
     fontSize: 17,
-    fontWeight: '700',
+    fontWeight: "700",
     color: Colors.white,
   },
   poweredBy: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.textLight,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 8,
   },
 });
